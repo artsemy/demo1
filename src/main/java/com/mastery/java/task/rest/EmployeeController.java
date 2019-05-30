@@ -115,31 +115,4 @@ public class EmployeeController {
         }
         return str;
     }
-/*
-    private Employee createRandomEmployeer(){
-        Employee emp = new Employee();
-        Random r = new Random();
-        String[] first_name = {"emily", "jack", "harry"};
-        String[]  last_name = {"smith", "johnson", "williams"};
-        long[] department_id = {12, 13, 14};
-        String[] job_title = {"junior", "middle", "senior"};
-        Gender[] gender = {Gender.MALE, Gender.FEMALE};
-        emp.setFirstName(first_name[r.nextInt(3)]);
-        emp.setLastName(last_name[r.nextInt(3)]);
-        emp.setDepartmentId(department_id[r.nextInt(3)]);
-        emp.setJobTitle(job_title[r.nextInt(3)]);
-        //emp.setGender(gender[r.nextInt(2)]);
-        String str = (r.nextInt(27) + 1) + "-" + (r.nextInt(11) + 1) + "-" + (r.nextInt(10) + 1985);
-        SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
-        Date date = null;
-        try {
-            date = format.parse(str);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        //emp.setDateOfBirth(date);
-        return emp;
-    }
-
- */
 }
