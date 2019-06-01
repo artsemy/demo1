@@ -43,11 +43,7 @@ public class Employee implements Serializable {
             this.jobTitle = s4;
         }
         if(!s5.isEmpty()){
-            if(s5.equals("male")) {
-                this.gender = Gender.MALE;
-            }else{
-                this.gender = Gender.FEMALE;
-            }
+            this.gender = Gender.MALE.parseGender(s5);
         }
         if(!s6.isEmpty()){
             SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
