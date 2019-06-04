@@ -24,7 +24,6 @@ import java.util.Map;
 @Repository
 public class EmployeeDaoImpl extends JdbcDaoSupport implements EmployeeDao {
 
-    private boolean bl;
     @Autowired
     DataSource dataSource;
 
@@ -154,11 +153,10 @@ public class EmployeeDaoImpl extends JdbcDaoSupport implements EmployeeDao {
     }
 
     private String createSqlRequest(Employee emp){
-        bl = false;
         String sql = getFirstNameParam(emp) + getLastNameParam(emp) + getDepartmentIdParam(emp)
                 + getJobTitleParam(emp) + getGenderParam(emp) + getDateOfBirthParam(emp)
                 + getEmployeeIdParam(emp);
-        return sql;
+        return sql.replaceFirst(" and ", "");
     }
 
     private String getFirstNameParam(Employee emp){
@@ -227,11 +225,7 @@ public class EmployeeDaoImpl extends JdbcDaoSupport implements EmployeeDao {
     private String getStringParam(String str1, String str2){
         String result = "";
         if (str2 != null){
-            if(bl){
-                result = " and ";
-            }
-            result = result + str1 + str2;
-            bl = true;
+            result = " and " + str1 + str2;
         }
         return result;
     }
