@@ -6,12 +6,8 @@ import com.mastery.java.task.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Random;
 
 @RestController
 public class EmployeeController {
@@ -33,13 +29,13 @@ public class EmployeeController {
 
 
     @GetMapping()
-    public String getMethod(@RequestParam(value = "first_name", defaultValue = "") String firstName,
-                            @RequestParam(value = "last_name", defaultValue = "") String lastName,
-                            @RequestParam(value = "department_id", defaultValue = "") String departmentId,
-                            @RequestParam(value = "job_title", defaultValue = "") String jobTitle,
-                            @RequestParam(value = "gender", defaultValue = "") String gender,
-                            @RequestParam(value = "date_of_birth", defaultValue = "") String dateOfBirth,
-                            @RequestParam(value = "employee_id", defaultValue = "") String employerId) {
+    public String getMethod(@RequestParam(value = "first_name", required=false) String firstName,
+                            @RequestParam(value = "last_name", required=false) String lastName,
+                            @RequestParam(value = "department_id", required=false) Long departmentId,
+                            @RequestParam(value = "job_title", required=false) String jobTitle,
+                            @RequestParam(value = "gender", required=false) Gender gender,
+                            @RequestParam(value = "date_of_birth", required=false) Date dateOfBirth,
+                            @RequestParam(value = "employee_id", required=false) Long employerId) {
         String str = "";
         Employee emp = new Employee(firstName, lastName, departmentId, jobTitle, gender, dateOfBirth, employerId);
         List<Employee> employeeList = empService.findEmployeeByAny(emp);
@@ -47,16 +43,17 @@ public class EmployeeController {
             str = createStringUnswer(employeeList);
         }
         return  "founded: " + "\n" + str;
+
     }
 
     @DeleteMapping()
-    public String deleteMethod(@RequestParam(value = "first_name", defaultValue = "") String firstName,
-                               @RequestParam(value = "last_name", defaultValue = "") String lastName,
-                               @RequestParam(value = "department_id", defaultValue = "") String departmentId,
-                               @RequestParam(value = "job_title", defaultValue = "") String jobTitle,
-                               @RequestParam(value = "gender", defaultValue = "") String gender,
-                               @RequestParam(value = "date_of_birth", defaultValue = "") String dateOfBirth,
-                               @RequestParam(value = "employee_id", defaultValue = "") String employerId) {
+    public String deleteMethod(@RequestParam(value = "first_name", required=false) String firstName,
+                               @RequestParam(value = "last_name", required=false) String lastName,
+                               @RequestParam(value = "department_id", required=false) Long departmentId,
+                               @RequestParam(value = "job_title", required=false) String jobTitle,
+                               @RequestParam(value = "gender", required=false) Gender gender,
+                               @RequestParam(value = "date_of_birth", required=false) Date dateOfBirth,
+                               @RequestParam(value = "employee_id", required=false) Long employerId) {
         String str = "";
         Employee emp = new Employee(firstName, lastName, departmentId, jobTitle, gender, dateOfBirth, employerId);
         List<Employee> employeeList = empService.findEmployeeByAny(emp);
@@ -70,17 +67,17 @@ public class EmployeeController {
     }
 
     @PutMapping()
-    public String putMethod(@RequestParam(value = "first_name", defaultValue = "") String firstName,
-                            @RequestParam(value = "last_name", defaultValue = "") String lastName,
-                            @RequestParam(value = "department_id", defaultValue = "") String departmentId,
-                            @RequestParam(value = "job_title", defaultValue = "") String jobTitle,
-                            @RequestParam(value = "gender", defaultValue = "") String gender,
-                            @RequestParam(value = "date_of_birth", defaultValue = "") String dateOfBirth,
-                            @RequestParam(value = "employee_id", defaultValue = "") String employerId) {
+    public String putMethod(@RequestParam(value = "first_name", required=false) String firstName,
+                            @RequestParam(value = "last_name", required=false) String lastName,
+                            @RequestParam(value = "department_id", required=false) Long departmentId,
+                            @RequestParam(value = "job_title", required=false) String jobTitle,
+                            @RequestParam(value = "gender", required=false) Gender gender,
+                            @RequestParam(value = "date_of_birth", required=false) Date dateOfBirth,
+                            @RequestParam(value = "employee_id", required=false) Long employerId) {
         String str;
         Employee emp;
-        if (firstName.equals("") && lastName.equals("") && departmentId.equals("") &&
-        jobTitle.equals("") && gender.equals("") && dateOfBirth.equals("") && employerId.equals("")){
+        if (firstName == null && lastName == null && departmentId == null &&
+        jobTitle == null && gender == null && dateOfBirth == null && employerId == null){
             emp = new Employee().setRandom();
             empService.insert(emp);
             str = emp.getFirstName();
@@ -93,16 +90,16 @@ public class EmployeeController {
     }
 
     @PostMapping()
-    public String postMethod(@RequestParam(value = "first_name", defaultValue = "") String firstName,
-                             @RequestParam(value = "last_name", defaultValue = "") String lastName,
-                             @RequestParam(value = "department_id", defaultValue = "") String departmentId,
-                             @RequestParam(value = "job_title", defaultValue = "") String jobTitle,
-                             @RequestParam(value = "gender", defaultValue = "") String gender,
-                             @RequestParam(value = "date_of_birth", defaultValue = "") String dateOfBirth,
-                             @RequestParam(value = "employee_id", defaultValue = "") String employerId) {
+    public String postMethod(@RequestParam(value = "first_name", required=false) String firstName,
+                             @RequestParam(value = "last_name", required=false) String lastName,
+                             @RequestParam(value = "department_id", required=false) Long departmentId,
+                             @RequestParam(value = "job_title", required=false) String jobTitle,
+                             @RequestParam(value = "gender", required=false) Gender gender,
+                             @RequestParam(value = "date_of_birth", required=false) Date dateOfBirth,
+                             @RequestParam(value = "employee_id", required=false) Long employerId) {
         String str = "";
-        Employee emp1 = new Employee(firstName, lastName, departmentId, jobTitle, gender, dateOfBirth, "");
-        Employee emp2 = new Employee("", "", "", "", "", "", employerId);
+        Employee emp1 = new Employee(firstName, lastName, departmentId, jobTitle, gender, dateOfBirth, null);
+        Employee emp2 = new Employee(null, null, null, null, null, null, employerId);
         empService.update(emp1, emp2);
         str += employerId;
         return "updated: " + str;

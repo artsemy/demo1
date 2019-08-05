@@ -1,17 +1,15 @@
 package com.mastery.java.task.dto;
 
 public enum Gender {
-    MALE ("male"),
-    FEMALE ("female");
+    MALE ,
+    FEMALE ;
 
-    private final String gender;
-
-    private Gender(String str){
-        gender = str;
-    }
-
-    @Override
-    public String toString() {
-        return this.gender;
+    public static Gender parseGender(String str) {
+        for (Gender gender : Gender.values()) {
+            if (gender.name().equalsIgnoreCase(str)) {
+                return gender;
+            }
+        }
+        return null;
     }
 }

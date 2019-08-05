@@ -24,7 +24,6 @@ import java.util.Map;
 @Repository
 public class EmployeeDaoImpl extends JdbcDaoSupport implements EmployeeDao {
 
-    private boolean bl;
     @Autowired
     DataSource dataSource;
 
@@ -70,10 +69,10 @@ public class EmployeeDaoImpl extends JdbcDaoSupport implements EmployeeDao {
     }
 
     @Override
-    public Employee findEmployeeById(long emp_id) {
+    public Employee findEmployeeById(long empId) {
 
         String sql = "select* from employee where employee_id = ?";
-        return (Employee) getJdbcTemplate().queryForObject(sql, new Object[]{emp_id}, new RowMapper<Employee>() {
+        return (Employee) getJdbcTemplate().queryForObject(sql, new Object[]{empId}, new RowMapper<Employee>() {
             @Override
             public Employee mapRow(ResultSet rs, int rwNumber) throws SQLException {
                 Employee emp = new Employee();
@@ -85,10 +84,10 @@ public class EmployeeDaoImpl extends JdbcDaoSupport implements EmployeeDao {
     }
 
     @Override
-    public String findNameById(long emp_id) {
+    public String findNameById(long empId) {
 
         String sql = "select first_name from employee where employee_id = ?";
-        return getJdbcTemplate().queryForObject(sql, new Object[]{emp_id}, String.class);
+        return getJdbcTemplate().queryForObject(sql, new Object[]{empId}, String.class);
     }
 
     @Override
@@ -100,9 +99,9 @@ public class EmployeeDaoImpl extends JdbcDaoSupport implements EmployeeDao {
     }
 
     @Override
-    public void deleteEmployeeById(long emp_id) {
+    public void deleteEmployeeById(long empId) {
         String sql = "delete from employee where employee_id = ?";
-        getJdbcTemplate().update(sql, new Object[]{emp_id});
+        getJdbcTemplate().update(sql, new Object[]{empId});
     }
 
     @Override
@@ -154,11 +153,10 @@ public class EmployeeDaoImpl extends JdbcDaoSupport implements EmployeeDao {
     }
 
     private String createSqlRequest(Employee emp){
-        bl = false;
         String sql = getFirstNameParam(emp) + getLastNameParam(emp) + getDepartmentIdParam(emp)
                 + getJobTitleParam(emp) + getGenderParam(emp) + getDateOfBirthParam(emp)
                 + getEmployeeIdParam(emp);
-        return sql;
+        return sql.replaceFirst(" and ", "");
     }
 
     private String getFirstNameParam(Employee emp){
@@ -227,11 +225,7 @@ public class EmployeeDaoImpl extends JdbcDaoSupport implements EmployeeDao {
     private String getStringParam(String str1, String str2){
         String result = "";
         if (str2 != null){
-            if(bl){
-                result = " and ";
-            }
-            result = result + str1 + str2;
-            bl = true;
+            result = " and " + str1 + str2;
         }
         return result;
     }
